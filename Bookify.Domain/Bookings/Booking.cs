@@ -131,7 +131,7 @@ public sealed class Booking : Entity
         return Result.Success();
     }
 
-    public Result Cancell(DateTime utcNow)
+    public Result Cancel(DateTime utcNow)
     {
         if (Status != BookingStatus.Confirmed)
         {
