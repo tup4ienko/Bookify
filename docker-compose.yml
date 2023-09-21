@@ -1,6 +1,7 @@
 ﻿services:
-  bookify.api:
+  bookify-api:
     image: bookify.api
+    container_name: Bookify.Api
     build:
       context: .
       dockerfile: Bookify.Api/Dockerfile
@@ -14,8 +15,10 @@
       - 5001:443
     volumes:
       - ${USERPROFILE}\.aspnet\https:/https:ro
-    depends_on: 
+    depends_on:
       - bookify-db
+    restart: always
+  
   
   bookify-db:
     image: postgres:latest
@@ -25,6 +28,10 @@
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     volumes:
-      - ./.containers/database:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5434:5432
+    restart: always
+    
+volumes:
+  pgdata: { }
