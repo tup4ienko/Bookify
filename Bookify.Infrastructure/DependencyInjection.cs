@@ -34,13 +34,13 @@ public static class DependencyInjection
         {
             options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
         });
-        
+
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IApartmentRepository, ApartmentRepository>();
 
         services.AddScoped<IBookingRepository, BookingRepository>();
-        
+
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
         services.AddSingleton<ISqlConnectionFactory>(_ =>

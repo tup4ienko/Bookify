@@ -8,7 +8,7 @@ namespace Bookify.Infrastructure;
 public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
     private readonly IPublisher _publisher;
-    
+
     public ApplicationDbContext(DbContextOptions options, IPublisher publisher)
         : base(options)
     {
@@ -18,7 +18,7 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-        
+
         base.OnModelCreating(modelBuilder);
     }
 
@@ -34,10 +34,10 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
         }
         catch (DbUpdateConcurrencyException ex)
         {
-            throw new ConcurrencyException ("Concurrency exception occurred.", ex);
+            throw new ConcurrencyException("Concurrency exception occurred.", ex);
         }
     }
-    
+
     private async Task PublishDomainEventsAsync()
     {
         var domainEvents = ChangeTracker
