@@ -6,7 +6,7 @@ using MediatR;
 namespace Bookify.Application.Abstractions.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse>
-    : IPipelineBehavior<TRequest, TRequest>
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseCommand
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
@@ -16,12 +16,15 @@ public class ValidationBehavior<TRequest, TResponse>
         _validators = validators;
     }
 
-    public async Task<TRequest> Handle(
-        TRequest request, 
-        RequestHandlerDelegate<TRequest> next, 
+    public async Task<TResponse> Handle(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (!_validators.Any()) return await next();
+        if (!_validators.Any())
+        {
+            return await next();
+        }
 
         var context = new ValidationContext<TRequest>(request);
 

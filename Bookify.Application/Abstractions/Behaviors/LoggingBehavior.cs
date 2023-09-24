@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 namespace Bookify.Application.Abstractions.Behaviors;
 
 public class LoggingBehavior<TRequest, TResponse>
-    : IPipelineBehavior<TRequest, TRequest>
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseCommand
 {
     private readonly ILogger<TRequest> _logger;
@@ -15,9 +15,9 @@ public class LoggingBehavior<TRequest, TResponse>
         _logger = logger;
     }
 
-    public async Task<TRequest> Handle(
+    public async Task<TResponse> Handle(
         TRequest request, 
-        RequestHandlerDelegate<TRequest> next, 
+        RequestHandlerDelegate<TResponse> next, 
         CancellationToken cancellationToken)
     {
         var name = request.GetType().Name;
